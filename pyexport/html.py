@@ -4,7 +4,13 @@ with python.
 
 Usage:
 >> d = Document("This is an Html Page")
-
+>> d.section()
+>> d.div()
+>> d.paragraph()
+>> d.header()
+>> d.table()
+>> d.image()
+>> d.url()
 """
 
 class Document:
