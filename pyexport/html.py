@@ -64,10 +64,14 @@ class Document:
         '''
         return
 
-    def add_paragraph(self):
+    def add_paragraph(self, text):
         '''
         Creates the <p> tag using the style classes.
         '''
+        content = "<p>\
+                     %s\
+                   </p>" % text
+        self._append(content)
         return 
 
     def add_img(self, src="."):
@@ -107,12 +111,17 @@ class Document:
         '''
         return
 
-    def _append(self, append=True, insertAtTop=False, insertAtBottom=False):
+    def _append(self, content, append=True, insertAtTop=False, split_tag=""):
         '''
         Smart parser for parsing an html text block and inserting
         a block in the document 
         '''
-        text = _document 
+        if split_tag == "":
+            split_tag = "</body>"
+        if insertAtTop:
+            split_tag = "<body>"
+        doc_above, doc_before = self._document.split(split_tag)
+        self._document = "%s%s%s%s" % (doc_above, content, split_tag, doc_before)
         return
 
 if __name__=="__main__":
