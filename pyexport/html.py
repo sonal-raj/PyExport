@@ -16,29 +16,44 @@ __tag__ = "</>"
 class Document:
     # Document Attributes
     _document = ""
-    _header   = ""
-    def __init__(self, header, theme='default'):
-        _document = ""
+    _title   = ""
+    def __init__(self, title, theme='default'):
+        _document = self.create_document(title=title)
         return
 
-    def create_document(self):
+    def create_document(self, title=""):
         """
         Create the html document with the <head> and <body>
         including the supplied style classes
         """
-        return
+        self._title = title
+        self._document = "<html>\
+                            <head>\
+                            <title>%s<\title>\
+                            </head>\
+                            <body>\
+                            </body>\
+                          <html>" % self._title   
 
     def add_header(self):
         '''
         Creates the <header> tag for the document
         Meta Information is added.
         '''
+        # Ensure single header
         return
 
     def add_footer(self):
         '''
         Creates the <footer> tag for the document
         Meta Information and copyrights are included here.
+        '''
+        # Ensure single footer 
+        return
+
+    def add_section(self):
+        '''
+        Creates the <section> tags for grouping content together.
         '''
         return
 
@@ -90,6 +105,14 @@ class Document:
         Allows the user to add some custom html code to the document
         beyond the creativity of this library.
         '''
+        return
+
+    def _append(self, append=True, insertAtTop=False, insertAtBottom=False):
+        '''
+        Smart parser for parsing an html text block and inserting
+        a block in the document 
+        '''
+        text = _document 
         return
 
 if __name__=="__main__":
