@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="PyExport",
-    version="0.0.0",
+    version="0.0.1",
     author="Sonal Raj",
     author_email="sonal.nitjsr@gmail.com",
     description="Export data programatically to emails, html, pdf, docs, xls, etc.",
