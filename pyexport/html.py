@@ -88,7 +88,7 @@ class Document:
 
     def add_line(self):
         '''
-        Creates the <ul> tag adding a horizontal rule to the document
+        Creates the <hr> tag adding a horizontal rule to the document
         '''
         return
 
