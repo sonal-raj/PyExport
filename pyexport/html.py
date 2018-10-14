@@ -173,7 +173,7 @@ class Document:
         doc_above, doc_before = self._document.split(split_tag)
         self._document = "%s%s%s%s" % (doc_above, content, split_tag, doc_before)
 
-    def export(format="html"):
+    def export(self, format="html"):
         '''
         Export the created document into a user specified format
         '''
