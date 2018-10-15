@@ -51,12 +51,6 @@ class Document:
         # Ensure single footer 
         return
 
-    def add_section(self):
-        '''
-        Creates the <section> tags for grouping content together.
-        '''
-        return
-
     def add_heading(self, text, level=1):
         '''
         Creating the <h1> tag by default. Parse the user supplied
@@ -176,6 +170,14 @@ class Document:
     def export(self, format="html"):
         '''
         Export the created document into a user specified format
+        Supported formats - html, pdf, email, doc
+        '''
+        return
+
+    def get_page(self):
+        '''
+        Extract the html and embedded style selected into a single 
+        docstring.
         '''
         return
 
