@@ -12,13 +12,18 @@ Usage:
 >> d.image()
 >> d.url()
 """
+import os
+
 __tag__ = "</>"
 class Document:
     # Document Attributes
     _document = ""
     _title   = ""
+    _theme   = ""
     def __init__(self, title, theme='default'):
-        _document = self.create_document(title=title)
+        self._document = self.create_document(title=title)
+        self._title = title
+        self._theme = theme
         return
 
     def create_document(self, title=""):
@@ -164,10 +169,10 @@ class Document:
             split_tag = "</body>"
         if insertAtTop:
             split_tag = "<body>"
-        doc_above, doc_before = self._document.split(split_tag)
-        self._document = "%s%s%s%s" % (doc_above, content, split_tag, doc_before)
+        doc_above, doc_below = self._document.split(split_tag)
+        self._document = "%s%s%s%s" % (doc_above, content, split_tag, doc_below)
 
-    def export(self, format="html"):
+    def export(self, format="html", path="."):
         '''
         Export the created document into a user specified format
         Supported formats - html, pdf, email, doc
@@ -179,7 +184,15 @@ class Document:
         Extract the html and embedded style selected into a single 
         docstring.
         '''
-        return
+        # Load the css file
+        stylesheet = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'themes/styles/{}.css'.format(self._theme))
+        with open(stylesheet, 'r') as myfile:
+            style = myfile.read()
+            
+        doc_style = "<style>%s</style>" % style
+        doc_above, doc_below = self._document.split("</head>")
+        consolidated_doc = "%s%s</head>%s" % (doc_above, doc_style, doc_below)
+        return consolidated_doc
 
 if __name__=="__main__":
     exit
