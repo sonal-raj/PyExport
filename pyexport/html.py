@@ -172,11 +172,23 @@ class Document:
         doc_above, doc_below = self._document.split(split_tag)
         self._document = "%s%s%s%s" % (doc_above, content, split_tag, doc_below)
 
-    def export(self, format="html", path="."):
+    def export(self, format="html", path=".", name="default"):
         '''
         Export the created document into a user specified format
         Supported formats - html, pdf, email, doc
         '''
+        if format=='html':
+            html_doc = self.get_page()
+            from BeautifulSoup import BeautifulSoup as bs
+            soup = bs(self._document)
+            prettyHTML = soup.prettify()
+            file_name = os.path.join(path, "%s.html" % name)
+            f = open(file_name, 'w+')
+            f.write(prettyHTML)
+            f.close()
+            print("%s successfully saved!" % file_name)
+
+        # Export to html
         return
 
     def get_page(self):
@@ -188,7 +200,7 @@ class Document:
         stylesheet = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'themes/styles/{}.css'.format(self._theme))
         with open(stylesheet, 'r') as myfile:
             style = myfile.read()
-            
+
         doc_style = "<style>%s</style>" % style
         doc_above, doc_below = self._document.split("</head>")
         consolidated_doc = "%s%s</head>%s" % (doc_above, doc_style, doc_below)
