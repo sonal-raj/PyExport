@@ -13,6 +13,7 @@ Usage:
 >> d.url()
 """
 import os
+import pdfkit
 
 __tag__ = "</>"
 class Document:
@@ -177,19 +178,21 @@ class Document:
         Export the created document into a user specified format
         Supported formats - html, pdf, email, doc
         '''
+        html_doc = self.get_page()
+        from BeautifulSoup import BeautifulSoup as bs
+        soup = bs(self._document)
+        prettyHTML = soup.prettify()
+        # Export to html
         if format=='html':
-            html_doc = self.get_page()
-            from BeautifulSoup import BeautifulSoup as bs
-            soup = bs(self._document)
-            prettyHTML = soup.prettify()
             file_name = os.path.join(path, "%s.html" % name)
             f = open(file_name, 'w+')
             f.write(prettyHTML)
             f.close()
             print("%s successfully saved!" % file_name)
-
-        # Export to html
-        return
+        # Export to pdf
+        elif format=='pdf':
+            pdf_path = os.path.join(path, "%s.pdf" % name)
+            pdfkit.from_string(prettyHTML, pdf_path)
 
     def get_page(self):
         '''
