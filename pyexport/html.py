@@ -14,6 +14,9 @@ Usage:
 """
 import os
 import pdfkit
+from xhtml2pdf import pisa
+import pypandoc as pdoc
+from BeautifulSoup import BeautifulSoup as bs
 
 __tag__ = "</>"
 class Document:
@@ -22,25 +25,36 @@ class Document:
     _title   = ""
     _theme   = ""
     def __init__(self, title, theme='default'):
-        self._document = self.create_document(title=title)
+        self.create_report(title=title)
+        print self._document
         self._title = title
         self._theme = theme
         return
 
-    def create_document(self, title=""):
+    #********************************
+    # Exposed APIs for the end_user #
+    #********************************
+    def create_report(self, title=""):
         """
         Create the html document with the <head> and <body>
         including the supplied style classes
+
+        @param title:
+            The document title to use for page header 
+            and document header.
         """
         self._title = title
         self._document = "<html>\
                             <head>\
-                            <title>%s<\title>\
+                            <title>%s</title>\
                             </head>\
                             <body>\
                             </body>\
                           <html>" % self._title   
 
+    #************************************************
+    # Private wrappers for internal or external use #
+    #************************************************
     def add_header(self):
         '''
         Creates the <header> tag for the document
@@ -156,7 +170,6 @@ class Document:
         '''
         Formats into appropriate html form and displays
         '''
-        from BeautifulSoup import BeautifulSoup as bs
         soup = bs(self._document)
         prettyHTML = soup.prettify()
         return prettyHTML
@@ -179,20 +192,27 @@ class Document:
         Supported formats - html, pdf, email, doc
         '''
         html_doc = self.get_page()
-        from BeautifulSoup import BeautifulSoup as bs
         soup = bs(self._document)
         prettyHTML = soup.prettify()
         # Export to html
         if format=='html':
             file_name = os.path.join(path, "%s.html" % name)
             f = open(file_name, 'w+')
-            f.write(prettyHTML)
+            f.write(html_doc)
             f.close()
             print("%s successfully saved!" % file_name)
         # Export to pdf
         elif format=='pdf':
             pdf_path = os.path.join(path, "%s.pdf" % name)
-            pdfkit.from_string(prettyHTML, pdf_path)
+            file_handle = open(pdf_path, 'w+b')
+            pisaStatus = pisa.CreatePDF(
+                                    prettyHTML,                
+                                    dest=file_handle
+                                    )
+            file_handle.close()      
+        # elif format=='doc' or format=='docx':\
+        #     doc_path = os.path.join(path, "%s.docx" % name)
+        #     output = pdoc.convert(prettyHTML, 'docx', format='html', outputfile=doc_path, extra_args=['-RTS'])
 
     def get_page(self):
         '''
@@ -200,7 +220,7 @@ class Document:
         docstring.
         '''
         # Load the css file
-        stylesheet = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'themes/styles/{}.css'.format(self._theme))
+        stylesheet = os.path.join(os.path.dirname(os.path.dirname(__file__)), '../themes/styles/{}.css'.format(self._theme))
         with open(stylesheet, 'r') as myfile:
             style = myfile.read()
 
