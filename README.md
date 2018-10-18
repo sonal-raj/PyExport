@@ -1,4 +1,4 @@
-# The Howler Project
+# The Docster Project
 
 ### Report generation and export framework
 
