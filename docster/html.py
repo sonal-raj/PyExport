@@ -24,17 +24,17 @@ class Document:
     _document = ""
     _title   = ""
     _theme   = ""
-    def __init__(self, title, theme='default'):
-        self.create_report(title=title)
+    def __init__(self, title, **kwargs):
+        self.create_report(title, kwargs)
         print self._document
         self._title = title
-        self._theme = theme
+        self._theme = kwargs.get("theme", "default")
         return
 
     #********************************
     # Exposed APIs for the end_user #
     #********************************
-    def create_report(self, title=""):
+    def create_report(self, title, kwargs):
         """
         Create the html document with the <head> and <body>
         including the supplied style classes
@@ -48,19 +48,41 @@ class Document:
                             <head>\
                             <title>%s</title>\
                             </head>\
-                            <body>\
+                            <body class=\"body\">\
+                                <div class=\"header\">"
+        logo_loc = kwargs.get("logo", "../_img/logo.png")
+        self._document +=  "<div class=\"logo\"><img src=\"%s\"></div>\
+                            <div class=\"title\">%s</div>" % (logo_loc, title)
+        if kwargs.has_key("byline"):
+            self._document +=  "<div class=\"byline\">%s</div>" % kwargs.get("byline")
+        # Close header 
+        self._document +=  "</div"
+        # Add Subheader
+        if kwargs.has_key("subhead"):
+            self._document += "<div class=\"subheader\">\
+	                            <div class=\"square\"></div>\
+	                            <h2>%s</h2></div>" % kwargs.get("subhead")
+
+        # Add content locator 
+        self._document += "<div class=\"content\"><!--content-start--><!--content-end--></div>\
                             </body>\
-                          <html>" % self._title   
+                          <html>"
 
     #************************************************
     # Private wrappers for internal or external use #
     #************************************************
+
     def add_header(self):
         '''
         Creates the <header> tag for the document
         Meta Information is added.
         '''
         # Ensure single header
+        content = "<div class=\"header\"> \
+	                <div class=\"logo\"></div> \
+	                <div class=\"title\">Title of this awesome report</div> \
+	                <div class=\"byline\">REPORT BYLINE</div> \
+                    </div>"
         return
 
     def add_footer(self):
@@ -180,9 +202,9 @@ class Document:
         a block in the document 
         '''
         if split_tag == "":
-            split_tag = "</body>"
+            split_tag = "<!--content-end-->"
         if insertAtTop:
-            split_tag = "<body>"
+            split_tag = "<!--content-start-->"
         doc_above, doc_below = self._document.split(split_tag)
         self._document = "%s%s%s%s" % (doc_above, content, split_tag, doc_below)
 

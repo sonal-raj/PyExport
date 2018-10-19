@@ -11,11 +11,110 @@
    Author : Sonal Raj
 */
 
-.body {}
+.body {
+	margin: 0px;
+	background: #eaeaea;
+}
 
-.header {}
+.header {
+	height: 50px;
+	margin: 0 auto;
+	font-family: Verdana;
+	font-weight: 400;
+	background: #272727;
+	color: #ffffff;
+	position: relative;
+	padding: 20px;
+	font-family: Times;
+}
 
-.footer {}
+.header .logo {
+	padding: 10px;
+	float: left;
+}
+
+.header .title {
+	padding: 10px;
+	font-size: 25px;
+	float: left;
+}
+
+.header .byline {
+	padding: 10px;
+	font-size: 25px;
+	float: right;
+}
+
+.subheader {
+	background: #333333;
+	font-family: Verdana;
+	position: relative;
+	color: #ffffff;
+	padding: 10px;
+	font-size: 10px;
+	width: 100%;
+	float: left;
+}
+
+.square {
+	height: 20px;
+	width: 20px;
+	background-color: #A35CA3;
+	border-radius: 5px;
+	float: left;
+	padding: 9px;
+	margin-left: 10px;
+	margin-right: 25px;
+}
+
+.content {
+	padding: 20px;
+	padding-top: 65px
+}
+.content.p {
+	text-align: justify;
+}
+
+/*
+Table specific styles
+*/
+#table {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+#table td, #table th {
+    border: 1px solid #ddd;
+    padding: 6px;
+}
+#table tr:nth-child(even){background-color: #f2f2f2;}
+#table tr:hover {background-color: #ddd;}
+#table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #A35CA3;
+    color: white;
+}
+
+
+#footer {
+	clear: both;
+	position: relative;
+	z-index: 10;
+	height: 4em;
+	margin: 0px;
+	padding: 0px;
+	background: #333333;
+}
+
+#footer h3 {
+	color: #ffffff;
+	padding: 10px;
+	font-size: 15px;
+	float: left;
+	padding-left: 50px;
+}
 
 .h1{}
 .h2{}
@@ -38,5 +137,3 @@
 .a {}
 
 .section {}
-
-.footer{}
