@@ -1,4 +1,3 @@
-# <img alt="Docster" src="" height="60">
 # The Docster Project
 
 ### Professional Report generation and export framework
