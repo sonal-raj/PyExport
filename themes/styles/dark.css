@@ -28,9 +28,14 @@
 	font-family: Times;
 }
 
-.header .logo {
+#logo {
 	padding: 10px;
 	float: left;
+	width:25px;
+	height: 25px;
+}
+#logo img {
+	width: 25px;
 }
 
 .header .title {
@@ -59,7 +64,7 @@
 .square {
 	height: 20px;
 	width: 20px;
-	background-color: #A35CA3;
+	background-color: #4ED0D1;
 	border-radius: 5px;
 	float: left;
 	padding: 9px;
@@ -93,7 +98,7 @@ Table specific styles
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
-    background-color: #A35CA3;
+    background-color: #4ED0D1;
     color: white;
 }
 

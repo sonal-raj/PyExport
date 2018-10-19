@@ -49,14 +49,14 @@ class Document:
                             <title>%s</title>\
                             </head>\
                             <body class=\"body\">\
-                                <div class=\"header\">"
-        logo_loc = kwargs.get("logo", "../_img/logo.png")
-        self._document +=  "<div class=\"logo\"><img src=\"%s\"></div>\
+                                <div class=\"header\">" % title
+        logo_loc = kwargs.get("logo", "https://github.com/sonal-raj/docster/raw/master/_img/logo.png")
+        self._document +=  "<div id=\"logo\"><img src=\"%s\"></div>\
                             <div class=\"title\">%s</div>" % (logo_loc, title)
         if kwargs.has_key("byline"):
             self._document +=  "<div class=\"byline\">%s</div>" % kwargs.get("byline")
         # Close header 
-        self._document +=  "</div"
+        self._document +=  "</div>"
         # Add Subheader
         if kwargs.has_key("subhead"):
             self._document += "<div class=\"subheader\">\
@@ -85,6 +85,12 @@ class Document:
                     </div>"
         return
 
+    def add_subheader(self):
+        """
+        Adds a subheader to the given document.
+        """
+        return
+
     def add_footer(self):
         '''
         Creates the <footer> tag for the document
@@ -93,19 +99,21 @@ class Document:
         # Ensure single footer 
         return
 
-    def add_heading(self, text, level=1):
+    def add_heading(self, text, level=1, add_line_after=False):
         '''
         Creating the <h1> tag by default. Parse the user supplied
         tag_level to create the tag.
         '''
         content = "<h%s class='h%s'>%s</h%s>" % (level, level, text, level)
         self._append(content)
+        if add_line_after:
+            self.add_line()
 
     def add_paragraph(self, text):
         '''
         Creates the <p> tag using the style classes.
         '''
-        content = "<p class='paragraph'>\
+        content = "<p>\
                      %s\
                    </p>" % text
         self._append(content)
@@ -117,12 +125,16 @@ class Document:
         content = "<img src=%s class='img'/>"
         self._append(content)
 
-    def add_table_numpy(self, table_data, no_header=False):
+    def add_table_numpy(self, table_data, title="", no_header=False):
         '''
         Creates the <table> block with the column headers
         and the column data info.
         '''
-        content = "<table class='table'>"
+        content = ""
+        if title!="":
+            level = 3
+            content += "<h%s class='h%s'>%s</h%s>" % (level, level, title, level)
+        content += "<table id='table'>"
         if not no_header:
             header_row = table_data[0]
             table_data = table_data[1:]
@@ -154,12 +166,15 @@ class Document:
                    </%s>" % (list_tag, item_string, list_tag)
         self._append(content)
 
-    def add_line(self):
+    def add_line(self, no_break=False):
         '''
         Creates the <hr> tag adding a horizontal rule to the document
         '''
         content = "<hr/>"
+        if not no_break:
+            content += "<br/>"
         self._append(content)
+        return content
 
     def add_break(self):
         '''
@@ -167,6 +182,7 @@ class Document:
         '''
         content = "<br/>"
         self._append(content)
+        return content
 
     def add_url(self, text="", url=""):
         '''
@@ -174,6 +190,7 @@ class Document:
         '''
         content = "<a href=%s class='link'>%s</a>"
         self._append(content)
+        return content
 
     def add_html(self, content):
         '''
@@ -181,6 +198,7 @@ class Document:
         beyond the creativity of this library.
         '''
         self._append(content)
+        return content
 
     def show(self):
         '''
@@ -188,11 +206,13 @@ class Document:
         '''
         return self._document
 
-    def pretty_print(self):
+    def pretty_print(self, doc=""):
         '''
         Formats into appropriate html form and displays
         '''
-        soup = bs(self._document)
+        if doc=="":
+            doc = self._document
+        soup = bs(doc)
         prettyHTML = soup.prettify()
         return prettyHTML
 
@@ -245,8 +265,10 @@ class Document:
         stylesheet = os.path.join(os.path.dirname(os.path.dirname(__file__)), '../themes/styles/{}.css'.format(self._theme))
         with open(stylesheet, 'r') as myfile:
             style = myfile.read()
-
-        doc_style = "<style>%s</style>" % style
+        # Obfuscate the style data
+        obfuscate = __import__("./utils/obfuscate.py")
+        compressed_style = obfuscate.obfuscate(style)        
+        doc_style = "<style>%s</style>" % compressed_style
         doc_above, doc_below = self._document.split("</head>")
         consolidated_doc = "%s%s</head>%s" % (doc_above, doc_style, doc_below)
         return consolidated_doc
