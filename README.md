@@ -14,10 +14,22 @@ A versatile library to play around with reports and data formats. Generate beaut
 - [Upcoming Features](#upcoming-features)
 
 ## Installation
+You can directly install the package from pip 
+```
+pip install docster
+```
+or you can checkout the source and build from scratch
+```
+cd docster
+python setup.py install
+```
 
 ## Docter Setup 
+Docster is a config driven application to make it easier to customize report templates specific to your organization
+
 
 ## Licence 
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Links
 
