@@ -1,4 +1,4 @@
-# The Docster Project
+# The Grebe Project
 
 ### Professional Report generation and export framework
 
@@ -16,11 +16,11 @@ A versatile library to play around with reports and data formats. Generate beaut
 ## Installation
 You can directly install the package from pip 
 ```
-pip install docster
+pip install grebe
 ```
 or you can checkout the source and build from scratch
 ```
-cd docster
+cd grebe
 python setup.py install
 ```
 
