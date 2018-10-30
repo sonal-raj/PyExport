@@ -39,5 +39,6 @@ Public release dates:
  - Code Release: 31/Nov/2018
  - Documentation Release: 31/Dec/2018
  - API Docs and Samples: 31/Jan/2019
+ - Integrate with Jinja Templates - 2019
 
 Stay tuned!
